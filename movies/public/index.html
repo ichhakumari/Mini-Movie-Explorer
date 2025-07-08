@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mini Movie Explorer</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet"/>
+  
+  <style>
+    body {
+      background-color: #f0f2f5;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+  .light-mode {
+    background-color: #f0f2f5;
+    color: #212529;
+  }
+
+  .dark-mode {
+    background-color: #121212;
+    color: #f1f1f1;
+  }
+
+  .dark-mode .navbar {
+    background-color: #1e1e1e !important;
+  }
+
+  .dark-mode .watchlist,
+  .dark-mode .movie-card {
+    background-color: #2a2a2a;
+    color: #fff;
+  }
+
+  .dark-mode input,
+  .dark-mode .form-control {
+    background-color: #333;
+    color: #fff;
+    border-color: #555;
+  }
+.search-bar {
+      margin-top: 25px;
+      position: relative;
+    }
+
+    .search-bar input {
+      padding-left: 2.5rem;
+    }
+
+    .search-bar .bi-search {
+      position: absolute;
+      top: 50%;
+      left: 10px;
+      transform: translateY(-50%);
+      color: #888;
+    }
+
+    .movie-card {
+      background-color: #fff;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s ease-in-out;
+    }
+
+    .movie-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .watchlist {
+      background-color: #fff;
+      padding: 1rem;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    }
+
+    
+
+    .watchlist h5 {
+      margin-bottom: 1rem;
+    }
+
+    .movie-img {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+    }
+
+    @media (min-width: 768px) {
+      .watchlist {
+        position: sticky;
+        top: 1rem;
+        max-height: 90vh;
+        overflow-y: auto;
+      }
+    }
+
+  
+    
+
+  body.light-mode {
+    background-color: #f4f4f4;
+    color: #111;
+  }
+
+  body.dark-mode {
+    background-color: #121212;
+    color: #eee;
+  }
+
+  #mainNavbar.dark-mode {
+    background-color: #000;
+  }
+
+  #mainNavbar.light-mode {
+    background-color: #f0ecec;
+  }
+
+  .navbar .nav-link:hover {
+    color: #ffc107 !important;
+  }
+
+  .navbar .form-control::placeholder {
+    color: #dfdada;
+  }
+
+  .navbar .form-control:focus {
+    box-shadow: none;
+    border-color: #ffc107;
+  }
+
+
+   
+    
+  </style>
+</head>
+<body class="light-mode">
+<!-- 
+  
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark rounded shadow-sm mb-4">
+  <div class="container-fluid">
+    <a class="navbar-brand d-flex align-items-center" href="#">
+      <i class="bi bi-film fs-3 me-2 text-warning"></i>
+      <div>
+        <div class="fw-bold">Mini Movie Explorer</div>
+        <small class="text-light d-none d-sm-block">Discover & save your favorite films 🎥</small>
+      </div>
+    </a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    
+    <div class="collapse navbar-collapse justify-content-end" id="navbarContent">
+      <ul class="navbar-nav mb-2 mb-lg-0">
+       
+       <li class="nav-item">
+         <button id="themeToggle" class="btn btn-outline-light btn-sm">🌙 Dark Mode</button>
+      </li>
+
+      </ul>
+    </div>
+  </div>
+</nav> -->
+
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg sticky-top shadow-sm py-2" id="mainNavbar">
+  <div class="container-fluid">
+
+    <!-- Brand -->
+    <a class="navbar-brand fw-bold d-flex align-items-center text-warning" href="#">
+      <i class="bi bi-play-fill fs-4 me-1"></i>MiniMovie
+    </a>
+
+    <!-- Toggler -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
+      aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Collapsible Content -->
+    <div class="collapse navbar-collapse" id="navbarContent">
+
+      <!-- Left Menu Links -->
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Popular</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Genres</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Watchlist</a></li>
+      </ul>
+
+      <!-- Search Bar -->
+      <form class="d-flex me-3" role="search">
+        <div class="input-group">
+          <span class="input-group-text bg-transparent border-0 text-secondary">
+            <i class="bi bi-search"></i>
+          </span>
+          <input class="form-control border-0 bg-transparent text-light" type="search"
+            placeholder="Search for movies..." aria-label="Search" />
+        </div>
+      </form>
+
+      <!-- Theme Toggle -->
+      <button id="themeToggle" class="btn btn-outline-light btn-sm me-2">🌙 Dark Mode</button>
+
+      <!-- Sign In -->
+      <button class="btn btn-outline-light btn-sm">Sign In</button>
+    </div>
+  </div>
+</nav>
+
+
+
+
+
+
+
+<!-- Search Bar -->
+    <div class="row mb-4">
+      <div class="col-md-8 mx-auto">
+        <div class="search-bar">
+          <i class="bi bi-search"></i>
+          <input type="text" class="form-control" id="searchInput" placeholder="Type to search movies..." />
+        </div>
+      </div>
+    </div>
+
+
+
+
+<div class="container-fluid">
+  <div class="row">
+  
+    <!-- Left Column: Movie Grid -->
+    <div class="col-lg-9 mb-4">
+      <div class="row g-4" id="movieCards">
+        <!-- Movie Card Example -->
+        <div class="col-12 col-sm-6 col-lg-4">
+          <div class="movie-card h-100">
+            <img src="https://via.placeholder.com/300x400" class="movie-img" alt="Movie Poster" />
+            <div class="p-3">
+              <h5 class="mb-1">Inception</h5>
+              <p class="text-muted small mb-1">2010 • 2h 28m • PG-13</p>
+              <span class="badge bg-success mb-2">87 Metascore</span>
+              <p class="text-muted small mb-2">⭐ 8.8 (2.3M)</p>
+              <button class="btn btn-outline-primary btn-sm w-100">+ Add to Watchlist</button>
+            </div>
+          </div>
+        </div>
+        <!-- Repeat Movie Cards -->
+         <div class="col-12 col-sm-6 col-lg-4">
+          <div class="movie-card h-100">
+            <img src="https://via.placeholder.com/300x400" class="movie-img" alt="Movie Poster" />
+            <div class="p-3">
+              <h5 class="mb-1">Inception</h5>
+              <p class="text-muted small mb-1">2010 • 2h 28m • PG-13</p>
+              <span class="badge bg-success mb-2">87 Metascore</span>
+              <p class="text-muted small mb-2">⭐ 8.8 (2.3M)</p>
+              <button class="btn btn-outline-primary btn-sm w-100">+ Add to Watchlist</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-lg-4">
+          <div class="movie-card h-100">
+            <img src="https://via.placeholder.com/300x400" class="movie-img" alt="Movie Poster" />
+            <div class="p-3">
+              <h5 class="mb-1">Inception</h5>
+              <p class="text-muted small mb-1">2010 • 2h 28m • PG-13</p>
+              <span class="badge bg-success mb-2">87 Metascore</span>
+              <p class="text-muted small mb-2">⭐ 8.8 (2.3M)</p>
+              <button class="btn btn-outline-primary btn-sm w-100">+ Add to Watchlist</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-lg-4">
+          <div class="movie-card h-100">
+            <img src="https://via.placeholder.com/300x400" class="movie-img" alt="Movie Poster" />
+            <div class="p-3">
+              <h5 class="mb-1">Inception</h5>
+              <p class="text-muted small mb-1">2010 • 2h 28m • PG-13</p>
+              <span class="badge bg-success mb-2">87 Metascore</span>
+              <p class="text-muted small mb-2">⭐ 8.8 (2.3M)</p>
+              <button class="btn btn-outline-primary btn-sm w-100">+ Add to Watchlist</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-lg-4">
+          <div class="movie-card h-100">
+            <img src="https://via.placeholder.com/300x400" class="movie-img" alt="Movie Poster" />
+            <div class="p-3">
+              <h5 class="mb-1">Inception</h5>
+              <p class="text-muted small mb-1">2010 • 2h 28m • PG-13</p>
+              <span class="badge bg-success mb-2">87 Metascore</span>
+              <p class="text-muted small mb-2">⭐ 8.8 (2.3M)</p>
+              <button class="btn btn-outline-primary btn-sm w-100">+ Add to Watchlist</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-lg-4">
+          <div class="movie-card h-100">
+            <img src="https://via.placeholder.com/300x400" class="movie-img" alt="Movie Poster" />
+            <div class="p-3">
+              <h5 class="mb-1">Inception</h5>
+              <p class="text-muted small mb-1">2010 • 2h 28m • PG-13</p>
+              <span class="badge bg-success mb-2">87 Metascore</span>
+              <p class="text-muted small mb-2">⭐ 8.8 (2.3M)</p>
+              <button class="btn btn-outline-primary btn-sm w-100">+ Add to Watchlist</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-lg-4">
+          <div class="movie-card h-100">
+            <img src="https://via.placeholder.com/300x400" class="movie-img" alt="Movie Poster" />
+            <div class="p-3">
+              <h5 class="mb-1">Inception</h5>
+              <p class="text-muted small mb-1">2010 • 2h 28m • PG-13</p>
+              <span class="badge bg-success mb-2">87 Metascore</span>
+              <p class="text-muted small mb-2">⭐ 8.8 (2.3M)</p>
+              <button class="btn btn-outline-primary btn-sm w-100">+ Add to Watchlist</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Watchlist -->
+    <div class="col-lg-3">
+      <div class="watchlist shadow-sm p-3 rounded bg-white">
+        <h5 class="mb-3 fw-semibold text-primary">📌 Your Watchlist</h5>
+        <ul class="list-group" id="watchlist">
+          <li class="list-group-item d-flex align-items-start justify-content-between">
+            <div>
+              <strong>Inception</strong> <br />
+              <small class="text-muted">2010 • PG-13</small>
+            </div>
+            <button class="btn btn-sm btn-outline-danger">✖</button>
+          </li>
+          <!-- Repeat for each watchlist item -->
+           <li class="list-group-item d-flex align-items-start justify-content-between">
+            <div>
+              <strong>Inception</strong> <br />
+              <small class="text-muted">2010 • PG-13</small>
+            </div>
+            <button class="btn btn-sm btn-outline-danger">✖</button>
+          </li>
+
+          <li class="list-group-item d-flex align-items-start justify-content-between">
+            <div>
+              <strong>Inception</strong> <br />
+              <small class="text-muted">2010 • PG-13</small>
+            </div>
+            <button class="btn btn-sm btn-outline-danger">✖</button>
+          </li>
+          <li class="list-group-item d-flex align-items-start justify-content-between">
+            <div>
+              <strong>Inception</strong> <br />
+              <small class="text-muted">2010 • PG-13</small>
+            </div>
+            <button class="btn btn-sm btn-outline-danger">✖</button>
+          </li>
+          <li class="list-group-item d-flex align-items-start justify-content-between">
+            <div>
+              <strong>Inception</strong> <br />
+              <small class="text-muted">2010 • PG-13</small>
+            </div>
+            <button class="btn btn-sm btn-outline-danger">✖</button>
+          </li>
+
+          <li class="list-group-item d-flex align-items-start justify-content-between">
+            <div>
+              <strong>Inception</strong> <br />
+              <small class="text-muted">2010 • PG-13</small>
+            </div>
+            <button class="btn btn-sm btn-outline-danger">✖</button>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+
+
+
+
+
+</body>
+</html>
+
+<!-- <script>
+  const toggleButton = document.getElementById('themeToggle');
+  const body = document.body;
+
+  // Load saved theme on reload
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme === 'dark') {
+    body.classList.remove('light-mode');
+    body.classList.add('dark-mode');
+    toggleButton.textContent = '☀️ Light Mode';
+  }
+
+  toggleButton.addEventListener('click', () => {
+    const isDark = body.classList.contains('dark-mode');
+    body.classList.toggle('dark-mode');
+    body.classList.toggle('light-mode');
+
+    toggleButton.textContent = isDark ? '🌙 Dark Mode' : '☀️ Light Mode';
+
+    // Save preference
+    localStorage.setItem('theme', isDark ? 'light' : 'dark');
+  });
+</script> -->
+
+<!-- Theme Toggle Script -->
+<script>
+  const toggleBtn = document.getElementById('themeToggle');
+  const body = document.body;
+  const navbar = document.getElementById('mainNavbar');
+
+  // Load saved theme
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme === 'dark') {
+    body.classList.add('dark-mode');
+    body.classList.remove('light-mode');
+    navbar.classList.add('dark-mode');
+    navbar.classList.remove('light-mode');
+    toggleBtn.textContent = '☀️ Light Mode';
+  } else {
+    body.classList.add('light-mode');
+    navbar.classList.add('light-mode');
+  }
+
+  toggleBtn.addEventListener('click', () => {
+    const isDark = body.classList.contains('dark-mode');
+    body.classList.toggle('dark-mode');
+    body.classList.toggle('light-mode');
+    navbar.classList.toggle('dark-mode');
+    navbar.classList.toggle('light-mode');
+    toggleBtn.textContent = isDark ? '🌙 Dark Mode' : '☀️ Light Mode';
+    localStorage.setItem('theme', isDark ? 'light' : 'dark');
+  });
+</script>
+
+
+
