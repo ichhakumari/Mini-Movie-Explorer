@@ -98,7 +98,7 @@
       transform: translateY(-5px);
     }
 
-  #watchlist {
+  .watchlist {
   background-color: #fff;
   padding: 1rem;
   border-radius: 10px;
@@ -106,12 +106,12 @@
   min-height: 100px;
 }
 
-#watchlist h5 {
+.watchlist h5 {
   margin-bottom: 1rem;
   color: #0d6efd;
 }
 
-#watchlist .list-group-item {
+.watchlist .list-group-item {
   background-color: #f9f9f9;
   border: none;
   border-radius: 6px;
@@ -125,7 +125,7 @@
     }
 
     @media (min-width: 768px) {
-      #watchlist {
+      .watchlist {
         position: sticky;
         top: 1rem;
         max-height: 90vh;
@@ -136,6 +136,32 @@
     html {
   scroll-behavior: smooth;
 }
+
+  body.dark-mode .watchlist {
+    background-color: #2a2a2a;
+    color: #fff;
+  }
+
+  body.dark-mode .watchlist .list-group-item {
+    background-color: #3a3a3a;
+    color: #fff;
+    border-color: #555;
+  }
+
+  body.dark-mode .watchlist .btn-outline-danger {
+    border-color: #dc3545;
+    color: #dc3545;
+  }
+
+  body.dark-mode .watchlist .btn-outline-danger:hover {
+    background-color: #dc3545;
+    color: #fff;
+  }
+
+body.dark-mode .movie-card .text-muted {
+  color: #fff !important;
+}
+
 
 
   </style>
@@ -205,19 +231,20 @@
 <div class="container-fluid">
   <div class="row">
   
-    <!-- Left Column: Movie Grid -->
+    <!-- Movie Grid -->
     <div class="col-lg-9 mb-4">
       <div class="row g-4" id="movieCards">
-        <!-- Movie Card Example -->
         
+         <h5 class="mb-1">
+          <a href="#" class="text-decoration-none text-dark" onclick="showMovieDetails('${movie.imdbID}')">${movie.Title}</a>
+        </h5>
 
-
-      </div>
+          </div>
     </div>
 
-    <!-- Right Column: Watchlist -->
+    <!-- Watchlist -->
     
-    <div class="col-lg-3" id="watchlist">
+    <div class="col-lg-3">
       <div class="watchlist shadow-sm p-3 rounded bg-white">
         <h5 class="mb-3 fw-semibold text-primary">📌 Your Watchlist</h5>
         <ul class="list-group" id="watchlist">
@@ -246,6 +273,22 @@
   </div>
 </div>
 
+
+<div class="modal fade" id="movieModal" tabindex="-1" aria-labelledby="movieModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="movieModalLabel">Movie Title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div id="movieModalContent">
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 
@@ -333,7 +376,9 @@ function displayMovies(movies) {
       <div class="movie-card h-100">
         <img src="${movie.Poster !== 'N/A' ? movie.Poster : 'https://via.placeholder.com/300x400?text=No+Image'}" class="movie-img" alt="Movie Poster" />
         <div class="p-3">
-          <h5 class="mb-1">${movie.Title}</h5>
+          <h5 class="mb-1">
+            <a href="#" class="text-decoration-none text-dark" onclick="showMovieDetails('${movie.imdbID}')">${movie.Title}</a>
+          </h5>
           <p class="text-muted small mb-1">${movie.Year}</p>
           <button class="btn btn-outline-primary btn-sm w-100" onclick='addToWatchlist(${JSON.stringify(movie)})'>+ Add to Watchlist</button>
         </div>
@@ -341,6 +386,7 @@ function displayMovies(movies) {
     </div>
   `).join('');
 }
+
 
 window.addEventListener("DOMContentLoaded", () => {
   renderWatchlist();
@@ -415,13 +461,12 @@ function renderWatchlist() {
 }
 
 function removeFromWatchlist(imdbID) {
-  let watchlist = JSON.parse(localStorage.getItem("watchlist")) || [];
-  watchlist = Array.isArray(watchlist) ? watchlist : []; 
-  const updated = watchlist.filter(m => m.imdbID !== imdbID);
-  localStorage.setItem("watchlist", JSON.stringify(updated));
+  watchlist = watchlist.filter(m => m.imdbID !== imdbID);  
+  localStorage.setItem("watchlist", JSON.stringify(watchlist));
   renderWatchlist();
   showToast("❌ Removed from Watchlist", "danger");
 }
+
 
 
 function showToast(message, type = "success") {
@@ -499,13 +544,37 @@ searchInput.addEventListener("input", () => {
   }, 500);
 });
 
-// Handle back button click
+// back button 
 backButton.addEventListener("click", () => {
   searchInput.value = "";
-  fetchDefaultMovies();              // 🔁 Reset to initial movie grid
-  backContainer.style.display = "none"; // Hide back button
+  fetchDefaultMovies();              
+  backContainer.style.display = "none"; 
 });
 
+async function showMovieDetails(imdbID) {
+  const res = await fetch(`https://www.omdbapi.com/?apikey=${API_KEY}&i=${imdbID}&plot=full`);
+  const movie = await res.json();
+
+  if (movie && movie.Response !== "False") {
+    document.getElementById("movieModalLabel").textContent = movie.Title;
+    document.getElementById("movieModalContent").innerHTML = `
+      <div class="row">
+        <div class="col-md-4">
+          <img src="${movie.Poster !== 'N/A' ? movie.Poster : 'https://via.placeholder.com/300x400?text=No+Image'}" class="img-fluid" alt="${movie.Title}" />
+        </div>
+        <div class="col-md-8">
+          <p><strong>Year:</strong> ${movie.Year}</p>
+          <p><strong>Genre:</strong> ${movie.Genre}</p>
+          <p><strong>Director:</strong> ${movie.Director}</p>
+          <p><strong>Actors:</strong> ${movie.Actors}</p>
+          <p><strong>Plot:</strong> ${movie.Plot}</p>
+          <p><strong>IMDb Rating:</strong> ${movie.imdbRating}</p>
+        </div>
+      </div>
+    `;
+    new bootstrap.Modal(document.getElementById('movieModal')).show();
+  }
+}
 
 
 
