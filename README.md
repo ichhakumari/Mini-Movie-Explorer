@@ -45,11 +45,15 @@ Built using HTML, Bootstrap, and vanilla JavaScript, the project demonstrates cl
 #### 6. Images
 
 View movie discription:
+https://github.com/ichhakumari/Mini-Movie-Explorer/blob/main/output1.png
 
 Search movies:
+https://github.com/ichhakumari/Mini-Movie-Explorer/blob/main/output2.png
 
 Remove from watchlist:
+https://github.com/ichhakumari/Mini-Movie-Explorer/blob/main/output3.png
 
 Added to watchlist:
+https://github.com/ichhakumari/Mini-Movie-Explorer/blob/main/putput4.png
 
 
