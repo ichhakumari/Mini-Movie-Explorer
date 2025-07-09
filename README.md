@@ -42,3 +42,14 @@ Built using HTML, Bootstrap, and vanilla JavaScript, the project demonstrates cl
 - Maintained a responsive, centered layout using Bootstrap grid system.
 
 ---
+#### 6. Images
+
+View movie discription:
+
+Search movies:
+
+Remove from watchlist:
+
+Added to watchlist:
+
+
