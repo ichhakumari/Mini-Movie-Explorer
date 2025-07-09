@@ -44,14 +44,19 @@ Built using HTML, Bootstrap, and vanilla JavaScript, the project demonstrates cl
 ---
 #### 6. Images
 
-View movie discription:
 <img src="https://github.com/ichhakumari/Mini-Movie-Explorer/blob/main/output1.png">
+<hr>
+View movie discription:
+<img src= "https://github.com/ichhakumari/Mini-Movie-Explorer/blob/main/Screenshot%202025-07-09%20151803.png">
 
+<hr>
 Search movies:
 <img src ="https://github.com/ichhakumari/Mini-Movie-Explorer/blob/main/output2.png">
+<hr>
 
 Remove from watchlist:
 <img src = "https://github.com/ichhakumari/Mini-Movie-Explorer/blob/main/output3.png">
+<hr>
 
 Added to watchlist:
 <img src= "https://github.com/ichhakumari/Mini-Movie-Explorer/blob/main/putput4.png">
