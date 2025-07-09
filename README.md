@@ -42,5 +42,3 @@ Built using HTML, Bootstrap, and vanilla JavaScript, the project demonstrates cl
 - Maintained a responsive, centered layout using Bootstrap grid system.
 
 ---
-
-Let me know if you want to include installation instructions or host it on GitHub Pages for demo access.
