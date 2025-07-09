@@ -55,6 +55,7 @@ Search movies:
 <hr>
 
 Remove from watchlist:
+
 <img src = "https://github.com/ichhakumari/Mini-Movie-Explorer/blob/main/output3.png">
 <hr>
 
