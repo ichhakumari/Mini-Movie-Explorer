@@ -1,65 +1,46 @@
-📽️ Mini Movie Explorer – Project Overview & Approach
-🔍 Overview
+## Mini Movie Explorer – Project Overview & Approach
+
+### Overview
 Mini Movie Explorer is a responsive, single-page web application that allows users to:
+- Search movies using the OMDb API
+- Add/remove movies to a personalized watchlist (stored in localStorage)
+- Toggle between dark/light themes
+- Filter by genre with live updates
 
-Search movies using the OMDb API
+Built using HTML, Bootstrap, and vanilla JavaScript, the project demonstrates clean UI/UX and interactive user features without the need for a backend.
 
-Add/remove movies to a personalized watchlist (stored in localStorage)
+---
 
-Toggle between dark/light themes
+### Project Approach
 
-Filter by genre (with live updates)
+#### 1. Objective
+- Build a user-friendly movie discovery interface.
+- Ensure the application is fully responsive and accessible.
+- Maintain watchlist data persistently using browser localStorage.
 
-Built with HTML, Bootstrap, and vanilla JavaScript, this project showcases core front-end development skills, clean UI/UX, and interactive user features.
+#### 2. Technology Stack
+- **Frontend:** HTML5, Bootstrap 5, JavaScript
+- **API:** OMDb API for movie search and metadata
+- **Storage:** localStorage for persistent watchlist data
+- **Icons:** Bootstrap Icons
 
-🧠 Project Approach
-1. 🎯 Objective Definition
-Build a user-friendly movie explorer.
+#### 3. Functional Modules
+- **Navbar:** Contains branding, navigation links, and theme toggle button.
+- **Search Bar:** Includes live search with debounce and a "Back" button for navigation control.
+- **Movie Grid:** Dynamically renders movie cards with posters, titles, and "Add to Watchlist" buttons.
+- **Watchlist Panel:** Displays saved movies, allowing users to remove entries.
+- **Toast Notifications:** Provides feedback when adding or removing movies, or handling duplicates.
 
-Ensure responsive design for mobile & desktop.
+#### 4. Theme Handling
+- Theme toggle implemented with a light/dark mode switch.
+- User preference saved in localStorage for persistent experience across sessions.
 
-Provide persistent watchlist without backend using localStorage.
+#### 5. Logic and User Experience
+- Used debounced search to avoid excessive API calls.
+- Displayed placeholder images if no movie poster is available.
+- Prevented duplicate entries in watchlist.
+- Maintained a responsive, centered layout using Bootstrap grid system.
 
-2. ⚙️ Technology Stack
-Frontend: HTML, Bootstrap 5, Vanilla JavaScript
+---
 
-API: OMDb API
-
-Persistence: localStorage for storing watchlist
-
-Icons/UI: Bootstrap Icons
-
-3. 🏗️ Component-Based Breakdown
-Navbar: Branding, navigation links, theme toggle
-
-Search Bar: Debounced input with live search and back-to-home button
-
-Movie Grid: Dynamically renders movie cards (with poster, year, add button)
-
-Watchlist Panel: Displays added movies, allows deletion
-
-Toast Alerts: Displays feedback (e.g., added, removed, duplicate)
-
-4. 🌗 Theme Switching
-Implemented dark/light toggle using class switching and localStorage to remember the theme.
-
-5. 🧪 Testing & Debugging
-Handled edge cases like:
-
-No results from API
-
-Duplicate entries in watchlist
-
-Invalid poster URLs
-
-Ensured UI does not break in mobile views.
-
-6. 📦 Final Touches
-Genre-based filtering (with dropdown and filter logic)
-
-Back button shown on search to return to home layout
-
-Toast alerts for feedback
-
-Sticky watchlist with scrollable container
-
+Let me know if you want to include installation instructions or host it on GitHub Pages for demo access.
